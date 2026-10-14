@@ -125,16 +125,6 @@
 
     .header-wa { display: none; } /* Shown on large screens only */
 
-    /* Floating WhatsApp button: phones only */
-    .wa-float {
-      position: fixed; right: 16px; bottom: 16px; z-index: 90;
-      display: grid; place-items: center; width: 56px; height: 56px;
-      border-radius: 50%; background: var(--red); color: #ffffff;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-    }
-    .wa-float:hover { background: var(--red-dark); }
-    .wa-float svg { width: 28px; height: 28px; }
-
     /* ==========================================================
        HERO: video with the service slider
        Phone: video on top, slider directly under it.
@@ -175,7 +165,7 @@
       margin: 0 0 12px; font-size: clamp(1.9rem, 6vw, 3.25rem);
       font-weight: 800; line-height: 1.08; letter-spacing: -0.02em;
     }
-    .slide p { margin: 0 0 24px; max-width: 32ch; color: var(--soft); font-size: clamp(1.05rem, 2.6vw, 1.3rem); }
+    .slide p { margin: 0; max-width: 32ch; color: var(--soft); font-size: clamp(1.05rem, 2.6vw, 1.3rem); }
 
     .slider-nav { display: flex; align-items: center; gap: 12px; margin-top: 28px; }
     .arrow {
@@ -212,18 +202,6 @@
     .about-grid { display: grid; gap: 4px; }
     .about-grid h2 { margin-bottom: 12px; }
     .about-grid p { margin: 0; max-width: 60ch; color: var(--soft); font-size: 1.0625rem; }
-
-    /* How It Works: a real sequence, so numbers are used */
-    .steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
-    .steps li {
-      display: flex; align-items: flex-start; gap: 16px; padding: 20px;
-      border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2);
-    }
-    .step-num {
-      flex: none; display: grid; place-items: center; width: 36px; height: 36px;
-      border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 50%; font-weight: 700;
-    }
-    .steps p { margin: 4px 0 0; font-size: 1.0625rem; }
 
     /* Our Work */
     .work-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
@@ -265,7 +243,7 @@
        SHARED FOOTER
        The only place for contact details and social links.
        ========================================================== */
-    .site-footer { padding: 56px 0 96px; background: #000000; border-top: 1px solid var(--line); }
+    .site-footer { padding: 56px 0 32px; background: #000000; border-top: 1px solid var(--line); }
     .footer-grid { display: grid; gap: 36px; }
     .footer-brand .brand { margin-bottom: 12px; }
     .footer-brand p { margin: 0; max-width: 32ch; color: var(--muted); }
@@ -306,7 +284,6 @@
       .nav a { padding: 8px 0; }
       .nav a::after { bottom: 0; }
       .header-wa { display: inline-flex; }
-      .wa-float { display: none; }
 
       .hero {
         display: flex; align-items: center;
@@ -324,8 +301,6 @@
       .section { padding: 88px 0; }
       .about-grid { grid-template-columns: 1fr 1.4fr; gap: 48px; }
       .about-grid h2 { margin-bottom: 0; }
-      .steps { grid-template-columns: repeat(3, 1fr); }
-      .steps li { flex-direction: column; }
 
       .site-footer { padding: 72px 0 32px; }
       .footer-grid { grid-template-columns: 1.2fr 1fr 1.2fr; gap: 48px; }
@@ -395,11 +370,6 @@
     </div>
   </header>
 
-  <!-- Floating WhatsApp button (phones only; the header button covers large screens) -->
-  <a class="wa-float" href="#" data-wa aria-label="Chat on WhatsApp">
-    <svg aria-hidden="true"><use href="#i-wa"/></svg>
-  </a>
-
   <main id="main">
 
     <!-- ==========================================================
@@ -410,10 +380,6 @@
         <video id="heroVideo" autoplay muted loop playsinline preload="auto" aria-label="Introduction video"></video>
         <div class="hero-shade"></div>
         <div class="media-controls">
-          <button class="media-btn" id="soundBtn" type="button">
-            <svg aria-hidden="true"><use href="#i-mute"/></svg>
-            <span>Tap for sound</span>
-          </button>
           <button class="media-btn" id="playBtn" type="button">
             <svg aria-hidden="true"><use href="#i-pause"/></svg>
             <span>Pause</span>
@@ -431,32 +397,26 @@
                 <article class="slide is-active" role="group" aria-roledescription="slide" aria-label="1 of 6">
                   <h2>AI Automation</h2>
                   <p>Chatbots and AI callers for your customers.</p>
-                  <a class="btn btn-line" href="services.html#ai">Learn more</a>
                 </article>
                 <article class="slide" role="group" aria-roledescription="slide" aria-label="2 of 6">
                   <h2>Website and App Development</h2>
                   <p>Websites and apps built for your business.</p>
-                  <a class="btn btn-line" href="services.html#web">Learn more</a>
                 </article>
                 <article class="slide" role="group" aria-roledescription="slide" aria-label="3 of 6">
                   <h2>Crypto and Gift Card Exchange</h2>
                   <p>Buy and sell crypto and gift cards.</p>
-                  <a class="btn btn-line" href="services.html#exchange">Learn more</a>
                 </article>
                 <article class="slide" role="group" aria-roledescription="slide" aria-label="4 of 6">
                   <h2>Software Installation</h2>
                   <p>We install the programs you need.</p>
-                  <a class="btn btn-line" href="services.html#software">Learn more</a>
                 </article>
                 <article class="slide" role="group" aria-roledescription="slide" aria-label="5 of 6">
                   <h2>System Formatting</h2>
                   <p>A fresh start for your computer.</p>
-                  <a class="btn btn-line" href="services.html#formatting">Learn more</a>
                 </article>
                 <article class="slide" role="group" aria-roledescription="slide" aria-label="6 of 6">
                   <h2>Hardware Maintenance</h2>
                   <p>Cleaning, upgrades and basic repairs.</p>
-                  <a class="btn btn-line" href="services.html#hardware">Learn more</a>
                 </article>
               </div>
 
@@ -486,20 +446,6 @@
       <div class="wrap about-grid">
         <h2 id="about-title">Who We Are</h2>
         <p>Reborn Tech Global is a technology company. We help businesses and individuals with AI automation, website and app development, software and hardware support, and crypto and gift card exchange. Tell us what you need, and we will explain how we can help.</p>
-      </div>
-    </section>
-
-    <!-- ==========================================================
-         HOW IT WORKS
-         ========================================================== -->
-    <section class="section" id="how" aria-labelledby="how-title">
-      <div class="wrap">
-        <h2 id="how-title">How It Works</h2>
-        <ol class="steps">
-          <li><span class="step-num" aria-hidden="true">1</span><p>Send your request.</p></li>
-          <li><span class="step-num" aria-hidden="true">2</span><p>We confirm the details and price on WhatsApp.</p></li>
-          <li><span class="step-num" aria-hidden="true">3</span><p>We deliver.</p></li>
-        </ol>
       </div>
     </section>
 
@@ -598,7 +544,6 @@
         <address class="footer-contact">
           <span><span class="label">WhatsApp</span><a href="#" data-wa><span data-wa-text></span></a></span>
           <span><span class="label">Email</span><a href="#" data-email></a></span>
-          <span>Shop address coming soon.</span>
         </address>
       </div>
 
@@ -617,8 +562,8 @@
       whatsappNumber: "2348111689782",
       whatsappDisplay: "+234 811 168 9782",
       email: "admin@reborntechglobal.org",
-      videoUrl: "https://res.cloudinary.com/zznslxmz/video/upload/v1791435850/VID-20260608-WA0017_2_wlpu5u.mp4",
-      videoPoster: "https://res.cloudinary.com/zznslxmz/video/upload/v1791435850/VID-20260608-WA0017_2_wlpu5u.jpg",
+      videoUrl: "https://res.cloudinary.com/zznslxmz/video/upload/q_auto,so_0,eo_60/v1791965550/Business_Professionals_and_Corporate_Stock_Video_Footage_by_FILMPAC_1_b1jhjq.mp4",
+      videoPoster: "https://res.cloudinary.com/zznslxmz/video/upload/q_auto,so_0/v1791965550/Business_Professionals_and_Corporate_Stock_Video_Footage_by_FILMPAC_1_b1jhjq.jpg",
       socials: {
         x: "https://x.com/RebornTechGlob",
         tiktok: "https://www.tiktok.com/@reborn_techglobal",
@@ -626,7 +571,6 @@
         facebook: "",
         youtube: ""
       },
-      formEndpoint: "",   // empty for now: the request form opens WhatsApp only
       works: [],          // add {name, url, image, description} items to show Our Work
       partnerPage: "partner.html"
     };
@@ -747,10 +691,9 @@
 
       /* ---------- Hero video ---------- */
       const video = $("#heroVideo");
-      const soundBtn = $("#soundBtn");
       const playBtn = $("#playBtn");
 
-      video.muted = true;       // Browsers only allow autoplay when muted
+      video.muted = true;       // Always muted (browsers also need this for autoplay)
       video.loop = true;
       video.playsInline = true;
       if (CONFIG.videoPoster) video.poster = CONFIG.videoPoster;
@@ -762,15 +705,13 @@
         const playing = !video.paused;
         $("use", playBtn).setAttribute("href", playing ? "#i-pause" : "#i-play");
         $("span", playBtn).textContent = playing ? "Pause" : "Play";
-        $("use", soundBtn).setAttribute("href", video.muted ? "#i-mute" : "#i-volume");
-        $("span", soundBtn).textContent = video.muted ? "Tap for sound" : "Mute";
       }
-      ["play", "pause", "volumechange"].forEach(function (name) {
-        video.addEventListener(name, paintButtons);
+      // The video is always muted. If anything unmutes it, mute it again.
+      video.addEventListener("volumechange", function () {
+        if (!video.muted) video.muted = true;
       });
-      soundBtn.addEventListener("click", function () {
-        video.muted = !video.muted;
-        if (!video.muted && video.paused) video.play();
+      ["play", "pause"].forEach(function (name) {
+        video.addEventListener(name, paintButtons);
       });
       playBtn.addEventListener("click", function () {
         if (video.paused) video.play(); else video.pause();
@@ -910,39 +851,23 @@
         return !firstBad;
       }
 
+      // Request form: opens WhatsApp with the message ready. Nothing else is sent anywhere.
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         if (!validate()) return;
 
-        const data = {
-          service: fields.service.options[fields.service.selectedIndex].text,
-          name: fields.name.value.trim(),
-          whatsapp: fields.whatsapp.value.trim(),
-          details: fields.details.value.trim(),
-          agreed: "yes"
-        };
-
-        // Optional: also send the data to formEndpoint when one is set
-        if (CONFIG.formEndpoint) {
-          fetch(CONFIG.formEndpoint, {
-            method: "POST",
-            mode: "no-cors",
-            body: new URLSearchParams(data),
-            keepalive: true
-          }).catch(function () {});
-        }
-
         const message = [
           "Hello Reborn Tech Global,",
-          "I would like to request: " + data.service,
-          "Name: " + data.name,
-          "WhatsApp: " + data.whatsapp,
-          "Details: " + data.details
+          "I would like to request: " + fields.service.options[fields.service.selectedIndex].text,
+          "Name: " + fields.name.value.trim(),
+          "WhatsApp: " + fields.whatsapp.value.trim(),
+          "Details: " + fields.details.value.trim()
         ].join("\n");
         const url = waBase + "?text=" + encodeURIComponent(message);
 
         window.open(url, "_blank");
 
+        // Backup link in case the phone blocks the new tab
         status.textContent = "Your message is ready. If WhatsApp does not open, ";
         const link = document.createElement("a");
         link.href = url;
