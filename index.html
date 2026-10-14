@@ -363,4 +363,596 @@
 
   <!-- ==========================================================
        SHARED HEADER (same on every page)
-       The logo has empty alt text because the 
+       The logo has empty alt text because the brand name is
+       written next to it, so screen readers do not read it twice.
+       ========================================================== -->
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="brand" href="index.html">
+        <img src="logo.png" alt="" height="40">
+        <span>Reborn Tech Global</span>
+      </a>
+
+      <nav class="nav" id="siteNav" aria-label="Main">
+        <ul>
+          <li><a href="index.html" aria-current="page">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li data-work-link hidden><a href="#work">Our Work</a></li>
+          <li><a href="#request">Request</a></li><!-- Other pages use index.html#request -->
+          <li><a href="#site-footer">Contact</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn btn-red header-wa" href="#" data-wa>
+        <svg aria-hidden="true"><use href="#i-wa"/></svg>
+        Chat on WhatsApp
+      </a>
+
+      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
+        <svg class="icon-open" aria-hidden="true"><use href="#i-menu"/></svg>
+        <svg class="icon-close" aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Floating WhatsApp button (phones only; the header button covers large screens) -->
+  <a class="wa-float" href="#" data-wa aria-label="Chat on WhatsApp">
+    <svg aria-hidden="true"><use href="#i-wa"/></svg>
+  </a>
+
+  <main id="main">
+
+    <!-- ==========================================================
+         HERO: video + service slider + services button
+         ========================================================== -->
+    <section class="hero" aria-label="Introduction">
+      <div class="hero-media">
+        <video id="heroVideo" autoplay muted loop playsinline preload="auto" aria-label="Introduction video"></video>
+        <div class="hero-shade"></div>
+        <div class="media-controls">
+          <button class="media-btn" id="soundBtn" type="button">
+            <svg aria-hidden="true"><use href="#i-mute"/></svg>
+            <span>Tap for sound</span>
+          </button>
+          <button class="media-btn" id="playBtn" type="button">
+            <svg aria-hidden="true"><use href="#i-pause"/></svg>
+            <span>Pause</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-body">
+        <div class="wrap">
+          <div class="hero-inner">
+            <h1 class="sr-only">Reborn Tech Global</h1>
+
+            <div class="slider" id="slider" role="region" aria-roledescription="carousel" aria-label="Our services">
+              <div class="slides" id="slides" aria-live="off">
+                <article class="slide is-active" role="group" aria-roledescription="slide" aria-label="1 of 6">
+                  <h2>AI Automation</h2>
+                  <p>Chatbots and AI callers for your customers.</p>
+                  <a class="btn btn-line" href="services.html#ai">Learn more</a>
+                </article>
+                <article class="slide" role="group" aria-roledescription="slide" aria-label="2 of 6">
+                  <h2>Website and App Development</h2>
+                  <p>Websites and apps built for your business.</p>
+                  <a class="btn btn-line" href="services.html#web">Learn more</a>
+                </article>
+                <article class="slide" role="group" aria-roledescription="slide" aria-label="3 of 6">
+                  <h2>Crypto and Gift Card Exchange</h2>
+                  <p>Buy and sell crypto and gift cards.</p>
+                  <a class="btn btn-line" href="services.html#exchange">Learn more</a>
+                </article>
+                <article class="slide" role="group" aria-roledescription="slide" aria-label="4 of 6">
+                  <h2>Software Installation</h2>
+                  <p>We install the programs you need.</p>
+                  <a class="btn btn-line" href="services.html#software">Learn more</a>
+                </article>
+                <article class="slide" role="group" aria-roledescription="slide" aria-label="5 of 6">
+                  <h2>System Formatting</h2>
+                  <p>A fresh start for your computer.</p>
+                  <a class="btn btn-line" href="services.html#formatting">Learn more</a>
+                </article>
+                <article class="slide" role="group" aria-roledescription="slide" aria-label="6 of 6">
+                  <h2>Hardware Maintenance</h2>
+                  <p>Cleaning, upgrades and basic repairs.</p>
+                  <a class="btn btn-line" href="services.html#hardware">Learn more</a>
+                </article>
+              </div>
+
+              <div class="slider-nav">
+                <button class="arrow" id="prevSlide" type="button" aria-label="Previous service">
+                  <svg aria-hidden="true"><use href="#i-left"/></svg>
+                </button>
+                <div class="dots" id="dots"></div>
+                <button class="arrow" id="nextSlide" type="button" aria-label="Next service">
+                  <svg aria-hidden="true"><use href="#i-right"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="hero-cta">
+              <a class="btn btn-red btn-lg" href="services.html">Explore Our Services</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         WHO WE ARE (the only company introduction on the site)
+         ========================================================== -->
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="wrap about-grid">
+        <h2 id="about-title">Who We Are</h2>
+        <p>Reborn Tech Global is a technology company. We help businesses and individuals with AI automation, website and app development, software and hardware support, and crypto and gift card exchange. Tell us what you need, and we will explain how we can help.</p>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         HOW IT WORKS
+         ========================================================== -->
+    <section class="section" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <h2 id="how-title">How It Works</h2>
+        <ol class="steps">
+          <li><span class="step-num" aria-hidden="true">1</span><p>Send your request.</p></li>
+          <li><span class="step-num" aria-hidden="true">2</span><p>We confirm the details and price on WhatsApp.</p></li>
+          <li><span class="step-num" aria-hidden="true">3</span><p>We deliver.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         OUR WORK (built from CONFIG.works, hidden while empty)
+         ========================================================== -->
+    <section class="section" id="work" aria-labelledby="work-title" hidden>
+      <div class="wrap">
+        <h2 id="work-title">Our Work</h2>
+        <div class="work-grid" id="workGrid"></div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         REQUEST FORM
+         ========================================================== -->
+    <section class="section" id="request" aria-labelledby="request-title">
+      <div class="wrap">
+        <h2 id="request-title">Request a Service</h2>
+        <p class="section-note">Fill in the form. WhatsApp opens with your message ready to send.</p>
+
+        <form class="form-card" id="requestForm" novalidate>
+          <div class="field">
+            <label for="service">Service</label>
+            <select id="service" name="service" required aria-describedby="service-error">
+              <option value="">Choose a service</option>
+              <option value="ai">AI Automation</option>
+              <option value="web">Website and App Development</option>
+              <option value="exchange">Crypto and Gift Card Exchange</option>
+              <option value="software">Software Installation</option>
+              <option value="formatting">System Formatting</option>
+              <option value="hardware">Hardware Maintenance</option>
+              <option value="other">Other</option>
+            </select>
+            <span class="error" id="service-error" aria-live="polite"></span>
+          </div>
+
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required aria-describedby="name-error">
+            <span class="error" id="name-error" aria-live="polite"></span>
+          </div>
+
+          <div class="field">
+            <label for="whatsapp">Your WhatsApp number</label>
+            <input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="Include your country code" required aria-describedby="whatsapp-error">
+            <span class="error" id="whatsapp-error" aria-live="polite"></span>
+          </div>
+
+          <div class="field">
+            <label for="details">Details</label>
+            <textarea id="details" name="details" required aria-describedby="details-error"></textarea>
+            <span class="error" id="details-error" aria-live="polite"></span>
+          </div>
+
+          <div class="field check">
+            <input id="agree" name="agree" type="checkbox" required aria-describedby="agree-error">
+            <label for="agree">I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a></label>
+            <span class="error" id="agree-error" aria-live="polite"></span>
+          </div>
+
+          <button class="btn btn-red btn-lg" type="submit">Send request</button>
+          <p class="form-status" id="formStatus" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================
+       SHARED FOOTER (same on every page)
+       The only place for contact details and social links.
+       ========================================================== -->
+  <footer class="site-footer" id="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html">
+            <img src="logo.png" alt="" height="40" loading="lazy">
+            <span>Reborn Tech Global</span>
+          </a>
+          <p>Practical technology help, from automation to repairs.</p>
+        </div>
+
+        <nav aria-label="Footer">
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li data-work-link hidden><a href="#work">Our Work</a></li>
+            <li><a href="#request">Request</a></li><!-- Other pages use index.html#request -->
+            <li data-partner-link hidden><a href="#">Partner With Us</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms</a></li>
+          </ul>
+        </nav>
+
+        <address class="footer-contact">
+          <span><span class="label">WhatsApp</span><a href="#" data-wa><span data-wa-text></span></a></span>
+          <span><span class="label">Email</span><a href="#" data-email></a></span>
+          <span>Shop address coming soon.</span>
+        </address>
+      </div>
+
+      <div class="footer-bottom">
+        <ul class="socials" id="socialList" hidden></ul>
+        <p class="copyright">&copy; <span id="year">2026</span> Reborn Tech Global.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ==========================================================
+       CONFIG: change settings here, nowhere else in this file
+       ========================================================== */
+    const CONFIG = {
+      whatsappNumber: "2348111689782",
+      whatsappDisplay: "+234 811 168 9782",
+      email: "admin@reborntechglobal.org",
+      videoUrl: "https://res.cloudinary.com/zznslxmz/video/upload/v1791435850/VID-20260608-WA0017_2_wlpu5u.mp4",
+      videoPoster: "https://res.cloudinary.com/zznslxmz/video/upload/v1791435850/VID-20260608-WA0017_2_wlpu5u.jpg",
+      socials: {
+        x: "https://x.com/RebornTechGlob",
+        tiktok: "https://www.tiktok.com/@reborn_techglobal",
+        instagram: "",
+        facebook: "",
+        youtube: ""
+      },
+      formEndpoint: "",   // empty for now: the request form opens WhatsApp only
+      works: [],          // add {name, url, image, description} items to show Our Work
+      partnerPage: "partner.html"
+    };
+
+    (function () {
+      "use strict";
+
+      /* ---------- Small helpers ---------- */
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+      const SVG_NS = "http://www.w3.org/2000/svg";
+      const waBase = "https://wa.me/" + CONFIG.whatsappNumber;
+
+      /* ---------- Contact details (footer text and every WhatsApp link) ---------- */
+      $$("[data-wa]").forEach(function (a) {
+        a.href = waBase;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+      });
+      $$("[data-wa-text]").forEach(function (el) { el.textContent = CONFIG.whatsappDisplay; });
+      $$("[data-email]").forEach(function (a) {
+        a.href = "mailto:" + CONFIG.email;
+        a.textContent = CONFIG.email;
+      });
+      $("#year").textContent = new Date().getFullYear();
+
+      /* ---------- Social icons: shown only when the link is not empty ---------- */
+      const socialOrder = [
+        ["x", "X"], ["tiktok", "TikTok"], ["instagram", "Instagram"],
+        ["facebook", "Facebook"], ["youtube", "YouTube"]
+      ];
+      const socialList = $("#socialList");
+      socialOrder.forEach(function (item) {
+        const url = (CONFIG.socials[item[0]] || "").trim();
+        if (!url) return;
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.setAttribute("aria-label", item[1]);
+        const svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("aria-hidden", "true");
+        const use = document.createElementNS(SVG_NS, "use");
+        use.setAttribute("href", "#i-" + item[0]);
+        svg.appendChild(use);
+        a.appendChild(svg);
+        li.appendChild(a);
+        socialList.appendChild(li);
+      });
+      socialList.hidden = socialList.children.length === 0;
+
+      /* ---------- Partner link: shown only when partnerPage is not empty ---------- */
+      const partnerPage = (CONFIG.partnerPage || "").trim();
+      $$("[data-partner-link]").forEach(function (li) {
+        if (partnerPage) {
+          $("a", li).href = partnerPage;
+          li.hidden = false;
+        }
+      });
+
+      /* ---------- Our Work: built from CONFIG.works, hidden when empty ---------- */
+      const works = Array.isArray(CONFIG.works) ? CONFIG.works : [];
+      if (works.length) {
+        const grid = $("#workGrid");
+        works.forEach(function (work) {
+          const card = document.createElement("article");
+          card.className = "work-card";
+
+          const img = document.createElement("img");
+          img.src = work.image;
+          img.alt = "Screenshot of " + work.name;
+          img.loading = "lazy";
+          img.decoding = "async";
+
+          const body = document.createElement("div");
+          body.className = "work-body";
+          const title = document.createElement("h3");
+          title.textContent = work.name;
+          const text = document.createElement("p");
+          text.textContent = work.description;
+          const link = document.createElement("a");
+          link.className = "btn btn-line";
+          link.href = work.url;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = "Visit site";
+
+          body.append(title, text, link);
+          card.append(img, body);
+          grid.appendChild(card);
+        });
+        $("#work").hidden = false;
+        $$("[data-work-link]").forEach(function (li) { li.hidden = false; });
+      }
+
+      /* ---------- Phone menu ---------- */
+      const navToggle = $("#navToggle");
+      const siteNav = $("#siteNav");
+      function setMenu(open) {
+        siteNav.classList.toggle("is-open", open);
+        navToggle.setAttribute("aria-expanded", String(open));
+        navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      }
+      navToggle.addEventListener("click", function () {
+        setMenu(!siteNav.classList.contains("is-open"));
+      });
+      siteNav.addEventListener("click", function (e) {
+        if (e.target.closest("a")) setMenu(false);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && siteNav.classList.contains("is-open")) {
+          setMenu(false);
+          navToggle.focus();
+        }
+      });
+      window.matchMedia("(min-width: 900px)").addEventListener("change", function () { setMenu(false); });
+
+      /* ---------- Hero video ---------- */
+      const video = $("#heroVideo");
+      const soundBtn = $("#soundBtn");
+      const playBtn = $("#playBtn");
+
+      video.muted = true;       // Browsers only allow autoplay when muted
+      video.loop = true;
+      video.playsInline = true;
+      if (CONFIG.videoPoster) video.poster = CONFIG.videoPoster;
+      video.src = CONFIG.videoUrl;
+      const started = video.play();
+      if (started && started.catch) started.catch(function () {});
+
+      function paintButtons() {
+        const playing = !video.paused;
+        $("use", playBtn).setAttribute("href", playing ? "#i-pause" : "#i-play");
+        $("span", playBtn).textContent = playing ? "Pause" : "Play";
+        $("use", soundBtn).setAttribute("href", video.muted ? "#i-mute" : "#i-volume");
+        $("span", soundBtn).textContent = video.muted ? "Tap for sound" : "Mute";
+      }
+      ["play", "pause", "volumechange"].forEach(function (name) {
+        video.addEventListener(name, paintButtons);
+      });
+      soundBtn.addEventListener("click", function () {
+        video.muted = !video.muted;
+        if (!video.muted && video.paused) video.play();
+      });
+      playBtn.addEventListener("click", function () {
+        if (video.paused) video.play(); else video.pause();
+      });
+      paintButtons();
+
+      /* ---------- Service slider ---------- */
+      const slider = $("#slider");
+      const slideBox = $("#slides");
+      const slides = $$(".slide", slider);
+      const dotsBox = $("#dots");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const SLIDE_MS = 5000;
+      let current = 0;
+      let timer = null;
+      let hovering = false;
+      let touching = false;
+      let focusing = false;
+
+      const dots = slides.map(function (slide, i) {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "dot";
+        dot.setAttribute("aria-label", "Show service " + (i + 1) + ": " + $("h2", slide).textContent);
+        dot.addEventListener("click", function () { go(i, true); });
+        dotsBox.appendChild(dot);
+        return dot;
+      });
+
+      function show(i) {
+        current = (i + slides.length) % slides.length;
+        slides.forEach(function (slide, n) {
+          const on = n === current;
+          slide.classList.toggle("is-active", on);
+          slide.setAttribute("aria-hidden", on ? "false" : "true");
+          dots[n].setAttribute("aria-current", on ? "true" : "false");
+        });
+      }
+      function go(i, byUser) {
+        show(i);
+        // Screen readers announce slide changes only after the person uses the controls
+        if (byUser) slideBox.setAttribute("aria-live", "polite");
+        restart();
+      }
+      function paused() { return hovering || touching || focusing; }
+      function stop() { clearInterval(timer); timer = null; }
+      function restart() {
+        stop();
+        if (reduceMotion.matches) return; // No automatic sliding for reduced motion
+        timer = setInterval(function () { if (!paused()) show(current + 1); }, SLIDE_MS);
+      }
+
+      $("#prevSlide").addEventListener("click", function () { go(current - 1, true); });
+      $("#nextSlide").addEventListener("click", function () { go(current + 1, true); });
+
+      // Pause on hover (mouse only), touch and keyboard focus
+      slider.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") hovering = true; });
+      slider.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") hovering = false; });
+      slider.addEventListener("focusin", function () { focusing = true; });
+      slider.addEventListener("focusout", function () { focusing = false; });
+
+      // Touch: pause while the finger is down, and allow a swipe left or right
+      let startX = 0;
+      slider.addEventListener("touchstart", function (e) {
+        touching = true;
+        startX = e.changedTouches[0].clientX;
+      }, { passive: true });
+      slider.addEventListener("touchend", function (e) {
+        touching = false;
+        const dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1), true); else restart();
+      }, { passive: true });
+      slider.addEventListener("touchcancel", function () { touching = false; }, { passive: true });
+
+      // Keyboard: left and right arrow keys
+      slider.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowLeft") { go(current - 1, true); }
+        if (e.key === "ArrowRight") { go(current + 1, true); }
+      });
+      reduceMotion.addEventListener("change", restart);
+
+      show(0);
+      restart();
+
+      /* ---------- Request form ---------- */
+      const form = $("#requestForm");
+      const status = $("#formStatus");
+      const fields = {
+        service: $("#service"),
+        name: $("#name"),
+        whatsapp: $("#whatsapp"),
+        details: $("#details"),
+        agree: $("#agree")
+      };
+
+      function setError(key, message) {
+        $("#" + key + "-error").textContent = message || "";
+        if (message) fields[key].setAttribute("aria-invalid", "true");
+        else fields[key].removeAttribute("aria-invalid");
+      }
+      Object.keys(fields).forEach(function (key) {
+        const clear = function () { setError(key, ""); };
+        fields[key].addEventListener("input", clear);
+        fields[key].addEventListener("change", clear);
+      });
+
+      // ?service=software preselects that service (also accepts the full service name)
+      const normalize = function (text) { return text.toLowerCase().replace(/[^a-z0-9]/g, ""); };
+      const wanted = normalize(new URLSearchParams(window.location.search).get("service") || "");
+      if (wanted) {
+        const match = Array.from(fields.service.options).find(function (option) {
+          return option.value && (normalize(option.value) === wanted || normalize(option.text) === wanted);
+        });
+        if (match) fields.service.value = match.value;
+      }
+
+      function validate() {
+        let firstBad = null;
+        function bad(key, message) {
+          setError(key, message);
+          if (!firstBad) firstBad = fields[key];
+        }
+        Object.keys(fields).forEach(function (key) { setError(key, ""); });
+
+        if (!fields.service.value) bad("service", "Choose a service.");
+        if (fields.name.value.trim().length < 2) bad("name", "Enter your name.");
+
+        const phone = fields.whatsapp.value.trim();
+        const digits = phone.replace(/\D/g, "");
+        if (!/^\+?[\d\s()\-]+$/.test(phone) || digits.length < 7 || digits.length > 15) {
+          bad("whatsapp", "Enter a valid WhatsApp number with country code.");
+        }
+        if (fields.details.value.trim().length < 5) bad("details", "Tell us what you need.");
+        if (!fields.agree.checked) bad("agree", "Tick the box to continue.");
+
+        if (firstBad) firstBad.focus();
+        return !firstBad;
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (!validate()) return;
+
+        const data = {
+          service: fields.service.options[fields.service.selectedIndex].text,
+          name: fields.name.value.trim(),
+          whatsapp: fields.whatsapp.value.trim(),
+          details: fields.details.value.trim(),
+          agreed: "yes"
+        };
+
+        // Optional: also send the data to formEndpoint when one is set
+        if (CONFIG.formEndpoint) {
+          fetch(CONFIG.formEndpoint, {
+            method: "POST",
+            mode: "no-cors",
+            body: new URLSearchParams(data),
+            keepalive: true
+          }).catch(function () {});
+        }
+
+        const message = [
+          "Hello Reborn Tech Global,",
+          "I would like to request: " + data.service,
+          "Name: " + data.name,
+          "WhatsApp: " + data.whatsapp,
+          "Details: " + data.details
+        ].join("\n");
+        const url = waBase + "?text=" + encodeURIComponent(message);
+
+        window.open(url, "_blank");
+
+        status.textContent = "Your message is ready. If WhatsApp does not open, ";
+        const link = document.createElement("a");
+        link.href = url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "tap here";
+        status.appendChild(link);
+        status.appendChild(document.createTextNode("."));
+      });
+    })();
+  </script>
+</body>
+</html>
