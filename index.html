@@ -8,6 +8,19 @@
   <meta name="theme-color" content="#0b0b0d">
   <link rel="icon" href="logo.png">
 
+  <!-- Picks light or dark before the page paints, so there is no flash.
+       A saved choice wins. Otherwise the phone's own setting is used. -->
+  <script>
+    (function () {
+      var theme = null;
+      try { theme = localStorage.getItem("rtg-theme"); } catch (err) {}
+      if (theme !== "light" && theme !== "dark") {
+        theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+
   <style>
     /* ==========================================================
        DESIGN TOKENS
@@ -15,18 +28,37 @@
        active indicators and hover lines.
        ========================================================== */
     :root {
+      color-scheme: dark;
       --bg: #0b0b0d;
       --bg-2: #131317;
       --line: rgba(255, 255, 255, 0.14);
+      --line-strong: rgba(255, 255, 255, 0.45);
       --text: #ffffff;
       --soft: #e6e6ea;
       --muted: #b9b9c2;
+      --header-bg: rgba(11, 11, 13, 0.94);
+      --focus: #ffffff;
       --red: #d90429;
       --red-dark: #b30322;
       --error: #ff7b8d;
       --header-h: 64px;
       --wrap: 1120px;
       --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* Light mode: only the colors change. Red stays the same. */
+    html[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f4f4f1;
+      --bg-2: #ffffff;
+      --line: rgba(11, 11, 13, 0.14);
+      --line-strong: rgba(11, 11, 13, 0.45);
+      --text: #0b0b0d;
+      --soft: #2b2b31;
+      --muted: #55555e;
+      --header-bg: rgba(244, 244, 241, 0.94);
+      --focus: #0b0b0d;
+      --error: #b3001b;
     }
 
     /* ---------- Base ---------- */
@@ -43,7 +75,7 @@
     a { color: inherit; }
     [hidden] { display: none !important; }
     [id] { scroll-margin-top: calc(var(--header-h) + 12px); }
-    :focus-visible { outline: 3px solid #ffffff; outline-offset: 3px; }
+    :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 
     .sr-only {
       position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
@@ -51,7 +83,7 @@
     }
     .skip-link {
       position: absolute; left: 12px; top: -60px; z-index: 200;
-      padding: 10px 14px; border-radius: 6px; background: #ffffff; color: #000000;
+      padding: 10px 14px; border-radius: 6px; background: var(--text); color: var(--bg);
       font-weight: 600; text-decoration: none;
     }
     .skip-link:focus { top: 12px; }
@@ -63,14 +95,14 @@
       display: inline-flex; align-items: center; justify-content: center; gap: 10px;
       min-height: 48px; padding: 12px 24px;
       border: 2px solid transparent; border-radius: 8px;
-      background: transparent; color: #ffffff;
+      background: transparent; color: var(--text);
       font: 600 1rem/1.2 var(--font); text-decoration: none; cursor: pointer;
       transition: background-color 0.2s, border-color 0.2s;
     }
     .btn svg { width: 22px; height: 22px; }
-    .btn-red { background: var(--red); }
+    .btn-red { background: var(--red); color: #ffffff; }
     .btn-red:hover { background: var(--red-dark); }
-    .btn-line { border-color: rgba(255, 255, 255, 0.55); }
+    .btn-line { border-color: var(--line-strong); }
     .btn-line:hover { border-color: var(--red); }
     .btn-lg { min-height: 56px; padding: 16px 32px; font-size: 1.125rem; }
     .btn[disabled] { opacity: 0.6; cursor: not-allowed; }
@@ -80,7 +112,7 @@
        ========================================================== */
     .site-header {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(11, 11, 13, 0.94);
+      background: var(--header-bg);
       -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--line);
     }
@@ -94,13 +126,14 @@
     }
     .brand img { height: 40px; width: auto; } /* Logo stays still: no rotation, no animation */
 
-    .nav-toggle {
+    .nav-toggle, .theme-toggle {
       display: grid; place-items: center; width: 44px; height: 44px;
-      border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 8px;
-      background: transparent; color: #ffffff; cursor: pointer;
+      border: 1px solid var(--line-strong); border-radius: 8px;
+      background: transparent; color: var(--text); cursor: pointer;
     }
-    .nav-toggle:hover { border-color: var(--red); }
-    .nav-toggle svg { width: 24px; height: 24px; }
+    .nav-toggle:hover, .theme-toggle:hover { border-color: var(--red); }
+    .nav-toggle svg, .theme-toggle svg { width: 24px; height: 24px; }
+    .header-tools { display: flex; align-items: center; gap: 8px; }
     .nav-toggle .icon-close { display: none; }
     .nav-toggle[aria-expanded="true"] .icon-open { display: none; }
     .nav-toggle[aria-expanded="true"] .icon-close { display: block; }
@@ -138,7 +171,7 @@
     .hero-media video { width: 100%; height: 100%; object-fit: cover; }
     .hero-shade {
       position: absolute; inset: 0; pointer-events: none;
-      background: linear-gradient(to bottom, rgba(11, 11, 13, 0) 55%, rgba(11, 11, 13, 0.85) 100%);
+      background: linear-gradient(to bottom, transparent 55%, var(--bg) 100%);
     }
 
     .hero-body { position: relative; padding: 28px 0 40px; background: var(--bg); }
@@ -160,8 +193,8 @@
     .slider-nav { display: flex; align-items: center; gap: 12px; margin-top: 28px; }
     .arrow {
       display: grid; place-items: center; width: 44px; height: 44px;
-      border: 1px solid rgba(255, 255, 255, 0.45); border-radius: 50%;
-      background: transparent; color: #ffffff; cursor: pointer;
+      border: 1px solid var(--line-strong); border-radius: 50%;
+      background: transparent; color: var(--text); cursor: pointer;
     }
     .arrow:hover { border-color: var(--red); }
     .arrow svg { width: 22px; height: 22px; }
@@ -172,7 +205,7 @@
     }
     .dot::before {
       content: ""; width: 10px; height: 10px; border-radius: 50%;
-      background: rgba(255, 255, 255, 0.45); transition: background-color 0.2s;
+      background: var(--line-strong); transition: background-color 0.2s;
     }
     .dot[aria-current="true"]::before { background: var(--red); }
 
@@ -214,11 +247,11 @@
     .field label { display: block; margin-bottom: 6px; font-weight: 600; }
     .field input, .field select, .field textarea {
       width: 100%; min-height: 48px; padding: 12px 14px;
-      border: 1px solid rgba(255, 255, 255, 0.28); border-radius: 8px;
-      background: var(--bg); color: #ffffff; font: inherit; color-scheme: dark;
+      border: 1px solid var(--line-strong); border-radius: 8px;
+      background: var(--bg); color: var(--text); font: inherit;
     }
     .field textarea { min-height: 120px; resize: vertical; }
-    .field input:focus, .field select:focus, .field textarea:focus { border-color: #ffffff; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--text); }
     .field [aria-invalid="true"] { border-color: var(--error); }
     .field.check { display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
     .field.check input { flex: none; width: 22px; min-height: 0; height: 22px; margin: 2px 0 0; accent-color: var(--red); }
@@ -233,7 +266,16 @@
        SHARED FOOTER
        The only place for contact details and social links.
        ========================================================== */
-    .site-footer { padding: 56px 0 32px; background: #000000; border-top: 1px solid var(--line); }
+    .site-footer {
+      /* The footer is black with white text in light and dark mode */
+      --text: #ffffff;
+      --muted: #b9b9c2;
+      --line: rgba(255, 255, 255, 0.14);
+      --line-strong: rgba(255, 255, 255, 0.45);
+      --focus: #ffffff;
+      padding: 56px 0 32px; background: #000000; color: var(--text);
+      border-top: 1px solid var(--line);
+    }
     .footer-grid { display: grid; gap: 36px; }
     .footer-brand .brand { margin-bottom: 12px; }
     .footer-brand p { margin: 0; max-width: 32ch; color: var(--muted); }
@@ -253,7 +295,7 @@
     .socials { list-style: none; display: flex; gap: 12px; margin: 0; padding: 0; }
     .socials a {
       display: grid; place-items: center; width: 44px; height: 44px;
-      border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 50%;
+      border: 1px solid var(--line-strong); border-radius: 50%;
     }
     .socials a:hover { border-color: var(--red); }
     .socials svg { width: 20px; height: 20px; }
@@ -276,6 +318,11 @@
       .header-wa { display: inline-flex; }
 
       .hero {
+        /* Text sits on top of the video, so it stays white in both modes */
+        --text: #ffffff;
+        --soft: #e6e6ea;
+        --line-strong: rgba(255, 255, 255, 0.55);
+        color: var(--text);
         display: flex; align-items: center;
         min-height: clamp(560px, calc(100vh - var(--header-h)), 820px);
       }
@@ -316,6 +363,7 @@
     <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-theme" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
   </svg>
 
@@ -348,10 +396,15 @@
         Chat on WhatsApp
       </a>
 
-      <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
-        <svg class="icon-open" aria-hidden="true"><use href="#i-menu"/></svg>
-        <svg class="icon-close" aria-hidden="true"><use href="#i-close"/></svg>
-      </button>
+      <div class="header-tools">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light mode">
+          <svg aria-hidden="true"><use href="#i-theme"/></svg>
+        </button>
+        <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
+          <svg class="icon-open" aria-hidden="true"><use href="#i-menu"/></svg>
+          <svg class="icon-close" aria-hidden="true"><use href="#i-close"/></svg>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -645,6 +698,34 @@
         $("#work").hidden = false;
         $$("[data-work-link]").forEach(function (li) { li.hidden = false; });
       }
+
+      /* ---------- Light and dark mode ---------- */
+      const THEME_KEY = "rtg-theme";
+      const themeBtn = $("#themeToggle");
+      const themeColor = $('meta[name="theme-color"]');
+      const phoneLight = window.matchMedia("(prefers-color-scheme: light)");
+
+      function savedTheme() {
+        try {
+          const saved = localStorage.getItem(THEME_KEY);
+          return saved === "light" || saved === "dark" ? saved : null;
+        } catch (err) { return null; }
+      }
+      function applyTheme(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        themeBtn.setAttribute("aria-label", theme === "light" ? "Switch to dark mode" : "Switch to light mode");
+        if (themeColor) themeColor.setAttribute("content", theme === "light" ? "#f4f4f1" : "#0b0b0d");
+      }
+      themeBtn.addEventListener("click", function () {
+        const next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+        applyTheme(next);
+        try { localStorage.setItem(THEME_KEY, next); } catch (err) {}
+      });
+      // Until the visitor taps the button, the site follows the phone's own setting
+      phoneLight.addEventListener("change", function (e) {
+        if (!savedTheme()) applyTheme(e.matches ? "light" : "dark");
+      });
+      applyTheme(document.documentElement.getAttribute("data-theme") || (phoneLight.matches ? "light" : "dark"));
 
       /* ---------- Phone menu ---------- */
       const navToggle = $("#navToggle");
