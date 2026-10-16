@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Our Services | Reborn Tech Global</title>
+  <meta name="description" content="See the services Reborn Tech Global offers: AI automation, website and app development, crypto and gift card exchange, software installation, system formatting and hardware maintenance.">
+  <meta name="theme-color" content="#0b0b0d">
+  <link rel="icon" href="logo.png">
+
+  <!-- Picks light or dark before the page paints, so there is no flash.
+       A saved Light or Dark choice wins. Auto (the default) uses the phone's own setting. -->
+  <script>
+    (function () {
+      var theme = null;
+      try { theme = localStorage.getItem("rtg-mode"); } catch (err) {}
+      if (theme !== "light" && theme !== "dark") {
+        theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+
+  <style>
+    /* ==========================================================
+       DESIGN TOKENS
+       Dark base, white text, red used only for buttons,
+       active indicators and hover lines.
+       ========================================================== */
+    :root {
+      color-scheme: dark;
+      --bg: #0b0b0d;
+      --bg-2: #131317;
+      --line: rgba(255, 255, 255, 0.14);
+      --line-strong: rgba(255, 255, 255, 0.45);
+      --text: #ffffff;
+      --soft: #e6e6ea;
+      --muted: #b9b9c2;
+      --header-bg: rgba(11, 11, 13, 0.94);
+      --focus: #ffffff;
+      --red: #d90429;
+      --red-dark: #b30322;
+      --red-text: #ff5a6e;
+      --error: #ff7b8d;
+      --header-h: 64px;
+      --wrap: 1120px;
+      --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* Light mode: only the colors change. Red stays the same. */
+    html[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f4f4f1;
+      --bg-2: #ffffff;
+      --line: rgba(11, 11, 13, 0.14);
+      --line-strong: rgba(11, 11, 13, 0.45);
+      --text: #0b0b0d;
+      --soft: #2b2b31;
+      --muted: #55555e;
+      --header-bg: rgba(244, 244, 241, 0.94);
+      --focus: #0b0b0d;
+      --red-text: #b3001b;
+      --error: #b3001b;
+    }
+
+    /* ---------- Base ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 400 1rem/1.6 var(--font);
+    }
+    img, video, svg { display: block; max-width: 100%; }
+    svg { fill: currentColor; }
+    a { color: inherit; }
+    [hidden] { display: none !important; }
+    [id] { scroll-margin-top: calc(var(--header-h) + 12px); }
+    :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+    .skip-link {
+      position: absolute; left: 12px; top: -60px; z-index: 200;
+      padding: 10px 14px; border-radius: 6px; background: var(--text); color: var(--bg);
+      font-weight: 600; text-decoration: none;
+    }
+    .skip-link:focus { top: 12px; }
+
+    .wrap { width: min(100% - 40px, var(--wrap)); margin-inline: auto; }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 48px; padding: 12px 24px;
+      border: 2px solid transparent; border-radius: 8px;
+      background: transparent; color: var(--text);
+      font: 600 1rem/1.2 var(--font); text-decoration: none; cursor: pointer;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+    .btn svg { width: 22px; height: 22px; }
+    .btn-red { background: var(--red); color: #ffffff; }
+    .btn-red:hover { background: var(--red-dark); }
+    .btn-line { border-color: var(--line-strong); }
+    .btn-line:hover { border-color: var(--red); }
+    .btn-lg { min-height: 56px; padding: 16px 32px; font-size: 1.125rem; }
+    .btn[disabled] { opacity: 0.6; cursor: not-allowed; }
+
+    /* ==========================================================
+       SHARED HEADER
+       ========================================================== */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--header-bg);
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .header-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      height: var(--header-h);
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: 1.125rem; font-weight: 700; letter-spacing: -0.01em; text-decoration: none;
+    }
+    .brand img { height: 40px; width: auto; } /* Logo stays still: no rotation, no animation */
+
+    .nav-toggle, .theme-toggle {
+      display: grid; place-items: center; width: 44px; height: 44px;
+      border: 1px solid var(--line-strong); border-radius: 8px;
+      background: transparent; color: var(--text); cursor: pointer;
+    }
+    .nav-toggle:hover, .theme-toggle:hover { border-color: var(--red); }
+    .nav-toggle svg, .theme-toggle svg { width: 24px; height: 24px; }
+    .header-tools { display: flex; align-items: center; gap: 8px; }
+
+    /* Light, Dark and Auto menu under the half circle button */
+    .theme-menu { position: relative; }
+    .theme-popup {
+      position: absolute; right: 0; top: calc(100% + 8px); z-index: 120;
+      min-width: 156px; padding: 6px;
+      border: 1px solid var(--line); border-radius: 12px;
+      background: var(--bg-2); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+    }
+    .theme-option {
+      display: flex; align-items: center; gap: 12px; width: 100%;
+      min-height: 46px; padding: 8px 12px; border: 0; border-radius: 8px;
+      background: transparent; color: var(--text);
+      font: 500 1rem/1 var(--font); text-align: left; cursor: pointer;
+    }
+    .theme-option svg { flex: none; width: 20px; height: 20px; }
+    .theme-option:hover { background: var(--line); }
+    .theme-option[aria-pressed="true"] { background: var(--line); box-shadow: inset 3px 0 0 var(--red); }
+    .theme-option[aria-pressed="true"] svg { color: var(--red); }
+    .nav-toggle .icon-close { display: none; }
+    .nav-toggle[aria-expanded="true"] .icon-open { display: none; }
+    .nav-toggle[aria-expanded="true"] .icon-close { display: block; }
+
+    /* Phone menu: a panel under the header */
+    .nav {
+      position: absolute; left: 0; right: 0; top: 100%;
+      display: none; background: var(--bg); border-bottom: 1px solid var(--line);
+    }
+    .nav.is-open { display: block; }
+    .nav ul { list-style: none; margin: 0; padding: 8px 20px 16px; }
+    .nav a {
+      position: relative; display: block; width: fit-content;
+      padding: 14px 0; font-weight: 500; text-decoration: none;
+    }
+    .nav a::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: 8px; height: 2px;
+      background: var(--red); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.2s;
+    }
+    .nav a:hover::after, .nav a[aria-current="page"]::after { transform: scaleX(1); }
+
+    .header-wa { display: none; } /* Shown on large screens only */
+
+    /* ==========================================================
+       SERVICES PAGE
+       ========================================================== */
+    .page-top { padding: 48px 0 24px; }
+    .page-top h1 {
+      margin: 0 0 12px; font-size: clamp(2rem, 6vw, 3rem);
+      line-height: 1.1; letter-spacing: -0.02em;
+    }
+    .page-top p { margin: 0; max-width: 52ch; color: var(--soft); font-size: 1.0625rem; }
+
+    .service-list { display: grid; gap: 20px; align-items: start; padding-top: 16px; padding-bottom: 72px; }
+    .service {
+      padding: 24px; border: 1px solid var(--line); border-radius: 16px;
+      background: var(--bg-2); transition: border-color 0.2s;
+    }
+    .service:target { border-color: var(--red); } /* The card you came to from the homepage */
+    .service-head { display: flex; align-items: flex-start; gap: 20px; }
+    .service-icon {
+      flex: none; display: grid; place-items: center; width: 56px; height: 56px;
+      border: 1px solid var(--line); border-radius: 12px; color: var(--red);
+    }
+    .service-icon svg {
+      width: 28px; height: 28px; fill: none; stroke: currentColor;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .service-text { flex: 1; min-width: 0; }
+    .service h2 { margin: 0 0 8px; font-size: 1.35rem; line-height: 1.25; letter-spacing: -0.01em; }
+    .service p { margin: 0; color: var(--soft); }
+
+    /* View Live Project link. Red line appears on hover. */
+    .project-link {
+      display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-top: 8px;
+      padding: 0; border: 0; background: none; color: var(--red-text);
+      font: 600 1rem/1.2 var(--font); text-decoration: none; cursor: pointer;
+    }
+    .project-link svg {
+      flex: none; width: 20px; height: 20px; fill: none; stroke: currentColor;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .project-link span {
+      padding-bottom: 2px;
+      background: linear-gradient(var(--red), var(--red)) 0 100% / 0 2px no-repeat;
+      transition: background-size 0.2s;
+    }
+    .project-link:hover span { background-size: 100% 2px; }
+
+    /* The video or picture that opens inside the card */
+    .project-panel { margin-top: 20px; }
+    .video-wrap {
+      position: relative; display: grid; place-items: center;
+      overflow: hidden; border-radius: 12px; background: #000000;
+    }
+    .video-wrap video { width: 100%; max-height: min(70vh, 640px); object-fit: contain; }
+    .video-wrap.is-tap { cursor: pointer; }
+    .play-badge { position: absolute; inset: 0; display: none; place-items: center; pointer-events: none; }
+    .video-wrap.is-paused .play-badge { display: grid; }
+    .play-badge span {
+      display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.5); background: rgba(0, 0, 0, 0.6); color: #ffffff;
+    }
+    .play-badge svg { width: 28px; height: 28px; }
+    .project-panel img {
+      width: 100%; max-height: min(70vh, 640px); object-fit: contain;
+      border: 1px solid var(--line); border-radius: 12px; background: var(--bg);
+    }
+
+    /* Coming soon card: lighter, no button */
+    .service.is-soon { border-style: dashed; background: transparent; }
+    .service.is-soon .service-icon { color: var(--muted); }
+    .service.is-soon h2 { color: var(--muted); }
+    .soon-label {
+      display: inline-block; margin-top: 4px; padding: 4px 14px;
+      border: 1px solid var(--line-strong); border-radius: 999px;
+      color: var(--muted); font-size: 0.9rem; font-weight: 600;
+    }
+
+    /* ==========================================================
+       SHARED FOOTER
+       The only place for contact details and social links.
+       ========================================================== */
+    .site-footer {
+      /* The footer is black with white text in light and dark mode */
+      --text: #ffffff;
+      --muted: #b9b9c2;
+      --line: rgba(255, 255, 255, 0.14);
+      --line-strong: rgba(255, 255, 255, 0.45);
+      --focus: #ffffff;
+      padding: 56px 0 32px; background: #000000; color: var(--text);
+      border-top: 1px solid var(--line);
+    }
+    .footer-grid { display: grid; gap: 36px; }
+    .footer-brand .brand { margin-bottom: 12px; }
+    .footer-brand p { margin: 0; max-width: 32ch; color: var(--muted); }
+    .footer-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    .footer-contact { display: grid; align-content: start; gap: 10px; font-style: normal; }
+    .footer-contact .label { color: var(--muted); margin-right: 6px; }
+    .footer-links a, .footer-contact a {
+      text-decoration: none; padding-bottom: 2px;
+      background: linear-gradient(var(--red), var(--red)) 0 100% / 0 2px no-repeat;
+      transition: background-size 0.2s;
+    }
+    .footer-links a:hover, .footer-contact a:hover { background-size: 100% 2px; }
+    .footer-bottom {
+      display: flex; flex-direction: column; gap: 16px;
+      margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line);
+    }
+    .socials { list-style: none; display: flex; gap: 12px; margin: 0; padding: 0; }
+    .socials a {
+      display: grid; place-items: center; width: 44px; height: 44px;
+      border: 1px solid var(--line-strong); border-radius: 50%;
+    }
+    .socials a:hover { border-color: var(--red); }
+    .socials svg { width: 20px; height: 20px; }
+    .copyright { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+    /* ==========================================================
+       LARGE SCREENS
+       ========================================================== */
+    @media (min-width: 900px) {
+      :root { --header-h: 72px; }
+
+      .nav-toggle { display: none; }
+      .nav {
+        position: static; display: block; margin-left: auto;
+        background: none; border: 0;
+      }
+      .nav ul { display: flex; gap: 28px; padding: 0; }
+      .nav a { padding: 8px 0; }
+      .nav a::after { bottom: 0; }
+      .header-wa { display: inline-flex; }
+
+      .page-top { padding: 80px 0 32px; }
+      .service-list { grid-template-columns: repeat(2, 1fr); gap: 24px; padding-bottom: 96px; }
+
+      .site-footer { padding: 72px 0 32px; }
+      .footer-grid { grid-template-columns: 1.2fr 1fr 1.2fr; gap: 48px; }
+      .footer-bottom { flex-direction: row; align-items: center; justify-content: space-between; }
+    }
+
+    /* Respect reduced motion: no transitions, no smooth scrolling */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Icon sprite: every icon on the page is defined here once -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-wa" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></symbol>
+    <symbol id="i-tiktok" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></symbol>
+    <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.2"/></symbol>
+    <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></symbol>
+    <symbol id="i-youtube" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-theme" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9L7 7M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+    <symbol id="i-bot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9.5 4h5M2 13v3M22 13v3"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></symbol>
+    <symbol id="i-web" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4M10 8l-2 2 2 2M14 8l2 2-2 2"/></symbol>
+    <symbol id="i-swap" viewBox="0 0 24 24"><path d="M4 8h14M14 4l4 4-4 4M20 16H6M10 12l-4 4 4 4"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 20h14"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9M20 4v5h-5"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18h2"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M21 16l-5-5L7 20"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ==========================================================
+       SHARED HEADER (same on every page)
+       The logo has empty alt text because the brand name is
+       written next to it, so screen readers do not read it twice.
+       ========================================================== -->
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="brand" href="index.html">
+        <img src="logo.png" alt="" height="40">
+        <span>Reborn Tech Global</span>
+      </a>
+
+      <nav class="nav" id="siteNav" aria-label="Main">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html" aria-current="page">Services</a></li>
+          <li data-work-link hidden><a href="index.html#work">Our Work</a></li>
+          <li><a href="index.html#request">Request</a></li>
+          <li><a href="#site-footer">Contact</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn btn-red header-wa" href="#" data-wa>
+        <svg aria-hidden="true"><use href="#i-wa"/></svg>
+        Chat on WhatsApp
+      </a>
+
+      <div class="header-tools">
+        <div class="theme-menu">
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Color mode" aria-haspopup="true" aria-expanded="false" aria-controls="themePopup">
+            <svg aria-hidden="true"><use href="#i-theme"/></svg>
+          </button>
+          <div class="theme-popup" id="themePopup" role="group" aria-label="Color mode" hidden>
+            <button class="theme-option" type="button" data-mode="light" aria-pressed="false">
+              <svg aria-hidden="true"><use href="#i-sun"/></svg><span>Light</span>
+            </button>
+            <button class="theme-option" type="button" data-mode="dark" aria-pressed="false">
+              <svg aria-hidden="true"><use href="#i-moon"/></svg><span>Dark</span>
+            </button>
+            <button class="theme-option" type="button" data-mode="auto" aria-pressed="true">
+              <svg aria-hidden="true"><use href="#i-theme"/></svg><span>Auto</span>
+            </button>
+          </div>
+        </div>
+        <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
+          <svg class="icon-open" aria-hidden="true"><use href="#i-menu"/></svg>
+          <svg class="icon-close" aria-hidden="true"><use href="#i-close"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="page-top" aria-labelledby="page-title">
+      <div class="wrap">
+        <h1 id="page-title">Our Services</h1>
+        <p>Here is what we offer. Tap View Live Project to see real work.</p>
+      </div>
+    </section>
+
+    <section class="wrap service-list" aria-label="Services">
+      <article class="service" id="ai">
+        <div class="service-head">
+          <span class="service-icon" aria-hidden="true"><svg><use href="#i-bot"/></svg></span>
+          <div class="service-text">
+            <h2>AI Automation</h2>
+            <p>Chatbots that answer your customers on WhatsApp and your website day and night, and AI callers that phone your customers for you. The live project is an AI caller agent built for a real estate brand.</p>
+            <button class="project-link" type="button" data-project="ai" aria-expanded="false" aria-controls="panel-ai" hidden><svg aria-hidden="true"><use href="#i-play"/></svg><span>View Live Project</span></button>
+          </div>
+        </div>
+        <div class="project-panel" id="panel-ai" hidden></div>
+      </article>
+
+      <article class="service" id="web">
+        <div class="service-head">
+          <span class="service-icon" aria-hidden="true"><svg><use href="#i-web"/></svg></span>
+          <div class="service-text">
+            <h2>Website and App Development</h2>
+            <p>We design and build custom websites and apps around the way your business works. Tell us what you need and we will explain the options before we start.</p>
+            <a class="project-link" href="#" target="_blank" rel="noopener noreferrer" data-project="web" hidden><svg aria-hidden="true"><use href="#i-external"/></svg><span>View Live Project</span></a>
+          </div>
+        </div>
+        <div class="project-panel" id="panel-web" hidden></div>
+      </article>
+
+      <article class="service" id="exchange">
+        <div class="service-head">
+          <span class="service-icon" aria-hidden="true"><svg><use href="#i-swap"/></svg></span>
+          <div class="service-text">
+            <h2>Crypto and Gift Card Exchange</h2>
+            <p>Buy and sell crypto currency and gift cards. Rates are confirmed with you before every trade, so there are no surprises.</p>
+            <button class="project-link" type="button" data-project="exchange" aria-expanded="false" aria-controls="panel-exchange" hidden><svg aria-hidden="true"><use href="#i-image"/></svg><span>View Live Project</span></button>
+          </div>
+        </div>
+        <div class="project-panel" id="panel-exchange" hidden></div>
+      </article>
+
+      <article class="service" id="software">
+        <div class="service-head">
+          <span class="service-icon" aria-hidden="true"><svg><use href="#i-download"/></svg></span>
+          <div class="service-text">
+            <h2>Software Installation</h2>
+            <p>We install and set up the programs you need on your computer, so it is ready to use when you get it back.</p>
+            <button class="project-link" type="button" data-project="software" aria-expanded="false" aria-controls="panel-software" hidden><svg aria-hidden="true"><use href="#i-play"/></svg><span>View Live Project</span></button>
+          </div>
+        </div>
+        <div class="project-panel" id="panel-software" hidden></div>
+      </article>
+
+      <article class="service" id="formatting">
+        <div class="service-head">
+          <span class="service-icon" aria-hidden="true"><svg><use href="#i-reset"/></svg></span>
+          <div class="service-text">
+            <h2>System Formatting</h2>
+            <p>We reinstall your operating system so your computer starts fresh and runs cleanly. Back up your files before you bring it.</p>
+            <button class="project-link" type="button" data-project="formatting" aria-expanded="false" aria-controls="panel-formatting" hidden><svg aria-hidden="true"><use href="#i-play"/></svg><span>View Live Project</span></button>
+          </div>
+        </div>
+        <div class="project-panel" id="panel-formatting" hidden></div>
+      </article>
+
+      <article class="service" id="hardware">
+        <div class="service-head">
+          <span class="service-icon" aria-hidden="true"><svg><use href="#i-chip"/></svg></span>
+          <div class="service-text">
+            <h2>Hardware Maintenance</h2>
+            <p>Light hardware work such as cleaning, storage upgrades and basic repairs.</p>
+            <button class="project-link" type="button" data-project="hardware" aria-expanded="false" aria-controls="panel-hardware" hidden><svg aria-hidden="true"><use href="#i-play"/></svg><span>View Live Project</span></button>
+          </div>
+        </div>
+        <div class="project-panel" id="panel-hardware" hidden></div>
+      </article>
+
+      <article class="service is-soon" id="gadgets">
+        <div class="service-head">
+          <span class="service-icon" aria-hidden="true"><svg><use href="#i-phone"/></svg></span>
+          <div class="service-text">
+            <h2>Gadgets and Laptop Accessories</h2>
+            <span class="soon-label">Coming Soon</span>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <!-- ==========================================================
+       SHARED FOOTER (same on every page)
+       The only place for contact details and social links.
+       ========================================================== -->
+  <footer class="site-footer" id="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="index.html">
+            <img src="logo.png" alt="" height="40" loading="lazy">
+            <span>Reborn Tech Global</span>
+          </a>
+          <p>Practical technology help, from automation to repairs.</p>
+        </div>
+
+        <nav aria-label="Footer">
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li data-work-link hidden><a href="index.html#work">Our Work</a></li>
+            <li><a href="index.html#request">Request</a></li>
+            <li data-partner-link hidden><a href="#">Partner With Us</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms</a></li>
+          </ul>
+        </nav>
+
+        <address class="footer-contact">
+          <span><span class="label">WhatsApp</span><a href="#" data-wa><span data-wa-text></span></a></span>
+          <span><span class="label">Email</span><a href="#" data-email></a></span>
+        </address>
+      </div>
+
+      <div class="footer-bottom">
+        <ul class="socials" id="socialList" hidden></ul>
+        <p class="copyright">&copy; <span id="year">2026</span> Reborn Tech Global.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ==========================================================
+       CONFIG: change settings here, nowhere else in this file
+       ========================================================== */
+    const CONFIG = {
+      whatsappNumber: "2348111689782",
+      whatsappDisplay: "+234 811 168 9782",
+      email: "admin@reborntechglobal.org",
+      // View Live Project. type: link opens a website, video plays inside the card,
+      // image shows a picture inside the card. sound: true plays with sound.
+      // sound: false is always muted. Leave url empty to hide that button.
+      projects: {
+        ai: {
+          type: "video", sound: true,
+          label: "AI caller agent built for a real estate brand",
+          url: "https://res.cloudinary.com/zznslxmz/video/upload/v1792131713/VID_20260614_153846_3_ja0bqx.mp4"
+        },
+        web: { type: "link", url: "https://blessamericacoin.com" },
+        exchange: { type: "image", url: "exchange.png", alt: "Crypto and gift card exchange example" },
+        software: {
+          type: "video", sound: false, label: "Software installation example",
+          url: "https://res.cloudinary.com/zznslxmz/video/upload/v1792132180/Easiest_way_to_install_Apps_2_fof5p2.mp4"
+        },
+        formatting: {
+          type: "video", sound: false, label: "System formatting example",
+          url: "https://res.cloudinary.com/zznslxmz/video/upload/v1792131921/ASMR_Formateo_de_Laptop_DELL_2_nzyx90.mp4"
+        },
+        hardware: {
+          type: "video", sound: false, label: "Hardware maintenance example",
+          url: "https://res.cloudinary.com/zznslxmz/video/upload/v1792131344/Upgrade_your_Storage_Drive_2_ewhthp.mp4"
+        }
+      },
+      socials: {
+        x: "https://x.com/RebornTechGlob",
+        tiktok: "https://www.tiktok.com/@reborn_techglobal",
+        instagram: "",
+        facebook: "",
+        youtube: ""
+      },
+      works: [],          // add {name, url, image, description} items to show Our Work
+      partnerPage: "partner.html"
+    };
+
+    (function () {
+      "use strict";
+
+      /* ---------- Small helpers ---------- */
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+      const SVG_NS = "http://www.w3.org/2000/svg";
+      const waBase = "https://wa.me/" + CONFIG.whatsappNumber;
+
+      /* ---------- Contact details (footer text and every WhatsApp link) ---------- */
+      $$("[data-wa]").forEach(function (a) {
+        a.href = waBase;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+      });
+      $$("[data-wa-text]").forEach(function (el) { el.textContent = CONFIG.whatsappDisplay; });
+      $$("[data-email]").forEach(function (a) {
+        a.href = "mailto:" + CONFIG.email;
+        a.textContent = CONFIG.email;
+      });
+      $("#year").textContent = new Date().getFullYear();
+
+      /* ---------- Social icons: shown only when the link is not empty ---------- */
+      const socialOrder = [
+        ["x", "X"], ["tiktok", "TikTok"], ["instagram", "Instagram"],
+        ["facebook", "Facebook"], ["youtube", "YouTube"]
+      ];
+      const socialList = $("#socialList");
+      socialOrder.forEach(function (item) {
+        const url = (CONFIG.socials[item[0]] || "").trim();
+        if (!url) return;
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.setAttribute("aria-label", item[1]);
+        const svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("aria-hidden", "true");
+        const use = document.createElementNS(SVG_NS, "use");
+        use.setAttribute("href", "#i-" + item[0]);
+        svg.appendChild(use);
+        a.appendChild(svg);
+        li.appendChild(a);
+        socialList.appendChild(li);
+      });
+      socialList.hidden = socialList.children.length === 0;
+
+      /* ---------- Partner link: shown only when partnerPage is not empty ---------- */
+      const partnerPage = (CONFIG.partnerPage || "").trim();
+      $$("[data-partner-link]").forEach(function (li) {
+        if (partnerPage) {
+          $("a", li).href = partnerPage;
+          li.hidden = false;
+        }
+      });
+
+      /* ---------- Our Work link: shown only when CONFIG.works has items ---------- */
+      if (Array.isArray(CONFIG.works) && CONFIG.works.length) {
+        $$("[data-work-link]").forEach(function (li) { li.hidden = false; });
+      }
+
+      /* ---------- Light, Dark and Auto ----------
+         Auto is the default. It copies the phone's own setting and changes
+         the moment the phone changes. Light and Dark are fixed choices. */
+      const MODE_KEY = "rtg-mode";
+      const themeBtn = $("#themeToggle");
+      const themePopup = $("#themePopup");
+      const themeColor = $('meta[name="theme-color"]');
+      const phoneLight = window.matchMedia("(prefers-color-scheme: light)");
+      let mode = "auto";
+
+      try {
+        const saved = localStorage.getItem(MODE_KEY);
+        if (saved === "light" || saved === "dark") mode = saved;
+      } catch (err) {}
+
+      function currentTheme() {
+        if (mode === "auto") return phoneLight.matches ? "light" : "dark";
+        return mode;
+      }
+      function applyTheme() {
+        const theme = currentTheme();
+        document.documentElement.setAttribute("data-theme", theme);
+        if (themeColor) themeColor.setAttribute("content", theme === "light" ? "#f4f4f1" : "#0b0b0d");
+        $$(".theme-option", themePopup).forEach(function (option) {
+          option.setAttribute("aria-pressed", String(option.dataset.mode === mode));
+        });
+      }
+      function setMode(next) {
+        mode = next;
+        try {
+          if (next === "auto") localStorage.removeItem(MODE_KEY);
+          else localStorage.setItem(MODE_KEY, next);
+        } catch (err) {}
+        applyTheme();
+      }
+      function closeThemeMenu() {
+        themePopup.hidden = true;
+        themeBtn.setAttribute("aria-expanded", "false");
+      }
+
+      themeBtn.addEventListener("click", function () {
+        const opening = themePopup.hidden;
+        themePopup.hidden = !opening;
+        themeBtn.setAttribute("aria-expanded", String(opening));
+        if (opening) setMenu(false);
+      });
+      themePopup.addEventListener("click", function (e) {
+        const option = e.target.closest(".theme-option");
+        if (!option) return;
+        setMode(option.dataset.mode);
+        closeThemeMenu();
+        themeBtn.focus();
+      });
+      document.addEventListener("click", function (e) {
+        if (!themePopup.hidden && !e.target.closest(".theme-menu")) closeThemeMenu();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !themePopup.hidden) {
+          closeThemeMenu();
+          themeBtn.focus();
+        }
+      });
+
+      // In Auto, follow the phone right away. Some phones do not announce the change
+      // while the screen is off, so also check again when the visitor comes back.
+      phoneLight.addEventListener("change", function () { if (mode === "auto") applyTheme(); });
+      document.addEventListener("visibilitychange", function () { if (mode === "auto") applyTheme(); });
+      window.addEventListener("focus", function () { if (mode === "auto") applyTheme(); });
+      window.addEventListener("pageshow", function () { if (mode === "auto") applyTheme(); });
+      applyTheme();
+
+      /* ---------- Phone menu ---------- */
+      const navToggle = $("#navToggle");
+      const siteNav = $("#siteNav");
+      function setMenu(open) {
+        siteNav.classList.toggle("is-open", open);
+        navToggle.setAttribute("aria-expanded", String(open));
+        navToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      }
+      navToggle.addEventListener("click", function () {
+        setMenu(!siteNav.classList.contains("is-open"));
+        closeThemeMenu();
+      });
+      siteNav.addEventListener("click", function (e) {
+        if (e.target.closest("a")) setMenu(false);
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && siteNav.classList.contains("is-open")) {
+          setMenu(false);
+          navToggle.focus();
+        }
+      });
+      window.matchMedia("(min-width: 900px)").addEventListener("change", function () { setMenu(false); });
+
+      /* ---------- Services: View Live Project ----------
+         Nothing loads until a visitor taps the button, which saves their data.
+         Only one project is open at a time. */
+      const projects = CONFIG.projects || {};
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      let openKey = null;
+
+      function setControl(control, text, icon) {
+        $("span", control).textContent = text;
+        $("use", control).setAttribute("href", "#" + icon);
+      }
+      function openIcon(key) { return projects[key].type === "image" ? "i-image" : "i-play"; }
+
+      // Video with sound: normal controls.
+      // Soundless video: always muted, loops, tap to pause or play.
+      function buildVideo(panel, cfg) {
+        const wrap = document.createElement("div");
+        wrap.className = "video-wrap";
+        const video = document.createElement("video");
+        video.playsInline = true;
+        video.preload = "none";
+        video.poster = cfg.url.replace(/\.mp4(\?.*)?$/i, ".jpg"); // Cloudinary makes the still image
+        video.setAttribute("aria-label", cfg.label || "Project video");
+
+        if (cfg.sound) {
+          video.controls = true;
+          video.setAttribute("controlslist", "nodownload");
+        } else {
+          video.muted = true;
+          video.defaultMuted = true;
+          video.setAttribute("muted", "");
+          video.loop = true;
+          // Nothing can switch the sound on
+          video.addEventListener("volumechange", function () { if (!video.muted) video.muted = true; });
+
+          wrap.classList.add("is-tap", "is-paused");
+          wrap.setAttribute("role", "button");
+          wrap.tabIndex = 0;
+          wrap.setAttribute("aria-label", "Pause or play the video");
+          const toggle = function () {
+            if (video.paused) video.play().catch(function () {}); else video.pause();
+          };
+          wrap.addEventListener("click", toggle);
+          wrap.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+          });
+          video.addEventListener("play", function () { wrap.classList.remove("is-paused"); });
+          video.addEventListener("pause", function () { wrap.classList.add("is-paused"); });
+
+          const badge = document.createElement("div");
+          badge.className = "play-badge";
+          badge.setAttribute("aria-hidden", "true");
+          badge.innerHTML = '<span><svg><use href="#i-play"/></svg></span>';
+          wrap.appendChild(badge);
+        }
+        video.src = cfg.url;
+        wrap.insertBefore(video, wrap.firstChild);
+        panel.appendChild(wrap);
+      }
+      function buildPanel(panel, cfg) {
+        if (cfg.type === "image") {
+          const img = document.createElement("img");
+          img.src = cfg.url;
+          img.alt = cfg.alt || "";
+          img.decoding = "async";
+          panel.appendChild(img);
+        } else {
+          buildVideo(panel, cfg);
+        }
+      }
+
+      function closeProject(key) {
+        const panel = $("#panel-" + key);
+        const control = $('[data-project="' + key + '"]');
+        const video = $("video", panel);
+        if (video) video.pause();
+        panel.hidden = true;
+        control.setAttribute("aria-expanded", "false");
+        setControl(control, "View Live Project", openIcon(key));
+        openKey = null;
+      }
+      function openProject(key, control) {
+        if (openKey) closeProject(openKey);
+        const panel = $("#panel-" + key);
+        if (!panel.firstChild) buildPanel(panel, projects[key]);
+        panel.hidden = false;
+        control.setAttribute("aria-expanded", "true");
+        setControl(control, "Close Project", "i-close");
+        openKey = key;
+        const video = $("video", panel);
+        if (video) {
+          const started = video.play();
+          if (started && started.catch) started.catch(function () {});
+        }
+        panel.scrollIntoView({ block: "nearest", behavior: reduceMotion.matches ? "auto" : "smooth" });
+      }
+
+      $$("[data-project]").forEach(function (control) {
+        const key = control.dataset.project;
+        const cfg = projects[key];
+        if (!cfg || !(cfg.url || "").trim()) return; // No link yet: the button stays hidden
+        control.hidden = false;
+        if (cfg.type === "link") {
+          control.href = cfg.url;
+          return;
+        }
+        control.addEventListener("click", function () {
+          if (openKey === key) closeProject(key); else openProject(key, control);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
