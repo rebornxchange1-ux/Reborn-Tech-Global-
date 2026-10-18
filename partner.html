@@ -123,10 +123,10 @@
       height: var(--header-h);
     }
     .brand {
-      display: inline-flex; align-items: center; gap: 12px;
-      font-size: 1.125rem; font-weight: 700; letter-spacing: -0.01em; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 10px; min-width: 0;
+      font-size: 1rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; text-decoration: none;
     }
-    .brand img { height: 40px; width: auto; } /* Logo stays still: no rotation, no animation */
+    .brand img { flex: none; height: 36px; width: auto; } /* Logo stays still: no rotation, no animation */
 
     .nav-toggle, .theme-toggle {
       display: grid; place-items: center; width: 44px; height: 44px;
@@ -305,15 +305,6 @@
     @media (min-width: 900px) {
       :root { --header-h: 72px; }
 
-      .nav-toggle { display: none; }
-      .nav {
-        position: static; display: block; margin-left: auto;
-        background: none; border: 0;
-      }
-      .nav ul { display: flex; gap: 28px; padding: 0; }
-      .nav a { padding: 8px 0; }
-      .nav a::after { bottom: 0; }
-      .header-wa { display: inline-flex; }
 
       .page-top { padding: 80px 0 32px; }
       .block { padding: 80px 0; }
@@ -324,6 +315,22 @@
       .site-footer { padding: 72px 0 32px; }
       .footer-grid { grid-template-columns: 1.2fr 1fr 1.2fr; gap: 48px; }
       .footer-bottom { flex-direction: row; align-items: center; justify-content: space-between; }
+    }
+
+    /* Wide screens: the full menu and the WhatsApp button sit in the header.
+       Below this width, phones and tablets use the menu button instead. */
+    @media (min-width: 1200px) {
+      .brand { gap: 12px; font-size: 1.125rem; }
+      .brand img { height: 44px; }
+      .nav-toggle { display: none; }
+      .nav {
+        position: static; display: block; margin-left: auto;
+        background: none; border: 0;
+      }
+      .nav ul { display: flex; gap: 24px; padding: 0; }
+      .nav a { padding: 8px 0; }
+      .nav a::after { bottom: 0; }
+      .header-wa { display: inline-flex; }
     }
 
     /* Respect reduced motion: no transitions, no smooth scrolling */
@@ -362,7 +369,7 @@
   <header class="site-header">
     <div class="wrap header-row">
       <a class="brand" href="index.html">
-        <img src="logo.png" alt="" height="40">
+        <img src="logo.png" alt="" height="36">
         <span>Reborn Tech Global</span>
       </a>
 
@@ -372,6 +379,7 @@
           <li><a href="services.html">Services</a></li>
           <li data-work-link hidden><a href="index.html#work">Our Work</a></li>
           <li><a href="index.html#request">Request</a></li>
+          <li data-partner-link hidden><a href="#" aria-current="page">Partner With Us</a></li>
           <li><a href="#site-footer">Contact</a></li>
         </ul>
       </nav>
@@ -555,7 +563,7 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <a class="brand" href="index.html">
-            <img src="logo.png" alt="" height="40" loading="lazy">
+            <img src="logo.png" alt="" height="36" loading="lazy">
             <span>Reborn Tech Global</span>
           </a>
           <p>Practical technology help, from automation to repairs.</p>
@@ -761,7 +769,7 @@
           navToggle.focus();
         }
       });
-      window.matchMedia("(min-width: 900px)").addEventListener("change", function () { setMenu(false); });
+      window.matchMedia("(min-width: 1200px)").addEventListener("change", function () { setMenu(false); });
 
       /* ---------- Partner form ----------
          Saves to the Google Sheet only. It does not open WhatsApp. */
