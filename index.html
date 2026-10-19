@@ -8,57 +8,30 @@
   <meta name="theme-color" content="#0b0b0d">
   <link rel="icon" href="logo.png">
 
-  <!-- Picks light or dark before the page paints, so there is no flash.
-       A saved Light or Dark choice wins. Auto (the default) uses the phone's own setting. -->
-  <script>
-    (function () {
-      var theme = null;
-      try { theme = localStorage.getItem("rtg-mode"); } catch (err) {}
-      if (theme !== "light" && theme !== "dark") {
-        theme = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-      }
-      document.documentElement.setAttribute("data-theme", theme);
-    })();
-  </script>
-
   <style>
     /* ==========================================================
        DESIGN TOKENS
-       Dark base, white text, red used only for buttons,
-       active indicators and hover lines.
+       White page, dark header and hero, black footer.
+       Red is used only for buttons, active indicators and hover lines.
        ========================================================== */
     :root {
-      color-scheme: dark;
-      --bg: #0b0b0d;
-      --bg-2: #131317;
-      --line: rgba(255, 255, 255, 0.14);
-      --line-strong: rgba(255, 255, 255, 0.45);
-      --text: #ffffff;
-      --soft: #e6e6ea;
-      --muted: #b9b9c2;
-      --header-bg: rgba(11, 11, 13, 0.94);
-      --focus: #ffffff;
-      --red: #d90429;
-      --red-dark: #b30322;
-      --error: #ff7b8d;
-      --header-h: 64px;
-      --wrap: 1120px;
-      --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    }
-
-    /* Light mode: only the colors change. Red stays the same. */
-    html[data-theme="light"] {
       color-scheme: light;
-      --bg: #f4f4f1;
-      --bg-2: #ffffff;
+      --bg: #ffffff;
+      --bg-2: #f4f4f1;
       --line: rgba(11, 11, 13, 0.14);
       --line-strong: rgba(11, 11, 13, 0.45);
       --text: #0b0b0d;
       --soft: #2b2b31;
       --muted: #55555e;
-      --header-bg: rgba(244, 244, 241, 0.94);
+      --header-bg: rgba(11, 11, 13, 0.94);
       --focus: #0b0b0d;
+      --red: #d90429;
+      --red-dark: #b30322;
+      --red-text: #b3001b;
       --error: #b3001b;
+      --header-h: 64px;
+      --wrap: 1120px;
+      --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     }
 
     /* ---------- Base ---------- */
@@ -111,6 +84,14 @@
        SHARED HEADER
        ========================================================== */
     .site-header {
+      /* The header is always dark, with white text */
+      --bg: #0b0b0d;
+      --text: #ffffff;
+      --muted: #b9b9c2;
+      --line: rgba(255, 255, 255, 0.14);
+      --line-strong: rgba(255, 255, 255, 0.45);
+      --focus: #ffffff;
+      color: var(--text);
       position: sticky; top: 0; z-index: 100;
       background: var(--header-bg);
       -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
@@ -126,33 +107,15 @@
     }
     .brand img { flex: none; height: 36px; width: auto; } /* Logo stays still: no rotation, no animation */
 
-    .nav-toggle, .theme-toggle {
+    .nav-toggle {
       display: grid; place-items: center; width: 44px; height: 44px;
       border: 1px solid var(--line-strong); border-radius: 8px;
       background: transparent; color: var(--text); cursor: pointer;
     }
-    .nav-toggle:hover, .theme-toggle:hover { border-color: var(--red); }
-    .nav-toggle svg, .theme-toggle svg { width: 24px; height: 24px; }
+    .nav-toggle:hover { border-color: var(--red); }
+    .nav-toggle svg { width: 24px; height: 24px; }
     .header-tools { display: flex; align-items: center; gap: 8px; }
 
-    /* Light, Dark and Auto menu under the half circle button */
-    .theme-menu { position: relative; }
-    .theme-popup {
-      position: absolute; right: 0; top: calc(100% + 8px); z-index: 120;
-      min-width: 156px; padding: 6px;
-      border: 1px solid var(--line); border-radius: 12px;
-      background: var(--bg-2); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
-    }
-    .theme-option {
-      display: flex; align-items: center; gap: 12px; width: 100%;
-      min-height: 46px; padding: 8px 12px; border: 0; border-radius: 8px;
-      background: transparent; color: var(--text);
-      font: 500 1rem/1 var(--font); text-align: left; cursor: pointer;
-    }
-    .theme-option svg { flex: none; width: 20px; height: 20px; }
-    .theme-option:hover { background: var(--line); }
-    .theme-option[aria-pressed="true"] { background: var(--line); box-shadow: inset 3px 0 0 var(--red); }
-    .theme-option[aria-pressed="true"] svg { color: var(--red); }
     .nav-toggle .icon-close { display: none; }
     .nav-toggle[aria-expanded="true"] .icon-open { display: none; }
     .nav-toggle[aria-expanded="true"] .icon-close { display: block; }
@@ -178,57 +141,53 @@
     .header-wa { display: none; } /* Shown on large screens only */
 
     /* ==========================================================
-       HERO: video with the service slider
-       Phone: video on top, slider directly under it.
-       Large screen: video fills the hero, slider sits over it.
+       HERO: video with the service slider inside it
+       The video is always dark. The services animate on top of it.
        ========================================================== */
-    .hero { position: relative; background: #000000; }
-    .hero-media {
-      position: relative; height: clamp(220px, 58vw, 380px);
-      overflow: hidden; background: #000000;
+    .hero {
+      /* The hero is always dark, with white text on top of the video */
+      --bg: #0b0b0d;
+      --text: #ffffff;
+      --soft: #e6e6ea;
+      --line-strong: rgba(255, 255, 255, 0.55);
+      --focus: #ffffff;
+      position: relative; display: flex; align-items: flex-end;
+      min-height: clamp(500px, 125vw, 700px);
+      background: #000000; color: var(--text);
     }
+    .hero-media { position: absolute; inset: 0; overflow: hidden; background: #000000; }
     .hero-media video { width: 100%; height: 100%; object-fit: cover; }
     .hero-shade {
       position: absolute; inset: 0; pointer-events: none;
-      background: linear-gradient(to bottom, transparent 55%, var(--bg) 100%);
+      background: linear-gradient(to top, rgba(11, 11, 13, 0.92) 0%, rgba(11, 11, 13, 0.6) 42%, rgba(11, 11, 13, 0.1) 100%);
     }
 
-    .hero-body { position: relative; padding: 28px 0 40px; background: var(--bg); }
+    .hero-body { position: relative; width: 100%; padding: 0 0 40px; }
     .hero-inner { max-width: 640px; }
 
+    /* The services animate inside the video: each slide slides in from the right */
     .slides { display: grid; }
     .slide {
       grid-area: 1 / 1;
       opacity: 0; visibility: hidden;
-      transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+      transition: opacity 0.3s ease, visibility 0s linear 0.3s;
     }
-    .slide.is-active { opacity: 1; visibility: visible; transition: opacity 0.4s ease; }
+    .slide.is-active { opacity: 1; visibility: visible; transition: opacity 0.3s ease; }
+    .slide.is-active h2 { animation: slide-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .slide.is-active p { animation: slide-in 0.7s 0.12s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: none; }
+    }
     .slide h2 {
       margin: 0 0 12px; font-size: clamp(1.9rem, 6vw, 3.25rem);
       font-weight: 800; line-height: 1.08; letter-spacing: -0.02em;
     }
     .slide p { margin: 0; max-width: 32ch; color: var(--soft); font-size: clamp(1.05rem, 2.6vw, 1.3rem); }
 
-    .slider-nav { display: flex; align-items: center; gap: 12px; margin-top: 28px; }
-    .arrow {
-      display: grid; place-items: center; width: 44px; height: 44px;
-      border: 1px solid var(--line-strong); border-radius: 50%;
-      background: transparent; color: var(--text); cursor: pointer;
-    }
-    .arrow:hover { border-color: var(--red); }
-    .arrow svg { width: 22px; height: 22px; }
-    .dots { display: flex; gap: 2px; }
-    .dot {
-      display: grid; place-items: center; width: 32px; height: 44px;
-      padding: 0; border: 0; background: none; cursor: pointer;
-    }
-    .dot::before {
-      content: ""; width: 10px; height: 10px; border-radius: 50%;
-      background: var(--line-strong); transition: background-color 0.2s;
-    }
-    .dot[aria-current="true"]::before { background: var(--red); }
-
-    .hero-cta { margin-top: 28px; }
+    /* Explore Our Services sits right under the video, on the white page */
+    .explore { padding: 28px 0; background: var(--bg); }
+    .explore .btn { width: 100%; }
 
     /* ==========================================================
        SECTIONS
@@ -327,22 +286,15 @@
       :root { --header-h: 72px; }
 
 
-      .hero {
-        /* Text sits on top of the video, so it stays white in both modes */
-        --text: #ffffff;
-        --soft: #e6e6ea;
-        --line-strong: rgba(255, 255, 255, 0.55);
-        color: var(--text);
-        display: flex; align-items: center;
-        min-height: clamp(560px, calc(100vh - var(--header-h)), 820px);
-      }
-      .hero-media { position: absolute; inset: 0; height: auto; }
+      .hero { align-items: center; min-height: clamp(560px, calc(100vh - var(--header-h)), 820px); }
       .hero-shade {
         background:
           linear-gradient(90deg, rgba(11, 11, 13, 0.92) 0%, rgba(11, 11, 13, 0.68) 45%, rgba(11, 11, 13, 0.2) 100%),
           linear-gradient(to top, rgba(11, 11, 13, 0.7) 0%, rgba(11, 11, 13, 0) 40%);
       }
-      .hero-body { width: 100%; padding: 96px 0; background: none; }
+      .hero-body { padding: 96px 0; }
+      .explore { padding: 40px 0; }
+      .explore .btn { width: auto; }
 
       .section { padding: 88px 0; }
       .about-grid { grid-template-columns: 1fr 1.4fr; gap: 48px; }
@@ -386,12 +338,7 @@
     <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.3" cy="6.7" r="1.2"/></symbol>
     <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></symbol>
     <symbol id="i-youtube" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></symbol>
-    <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-    <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-theme" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z"/></symbol>
-    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9L7 7M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
     <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
   </svg>
 
@@ -426,22 +373,6 @@
       </a>
 
       <div class="header-tools">
-        <div class="theme-menu">
-          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Color mode" aria-haspopup="true" aria-expanded="false" aria-controls="themePopup">
-            <svg aria-hidden="true"><use href="#i-theme"/></svg>
-          </button>
-          <div class="theme-popup" id="themePopup" role="group" aria-label="Color mode" hidden>
-            <button class="theme-option" type="button" data-mode="light" aria-pressed="false">
-              <svg aria-hidden="true"><use href="#i-sun"/></svg><span>Light</span>
-            </button>
-            <button class="theme-option" type="button" data-mode="dark" aria-pressed="false">
-              <svg aria-hidden="true"><use href="#i-moon"/></svg><span>Dark</span>
-            </button>
-            <button class="theme-option" type="button" data-mode="auto" aria-pressed="true">
-              <svg aria-hidden="true"><use href="#i-theme"/></svg><span>Auto</span>
-            </button>
-          </div>
-        </div>
         <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
           <svg class="icon-open" aria-hidden="true"><use href="#i-menu"/></svg>
           <svg class="icon-close" aria-hidden="true"><use href="#i-close"/></svg>
@@ -494,22 +425,19 @@
                 </article>
               </div>
 
-              <div class="slider-nav">
-                <button class="arrow" id="prevSlide" type="button" aria-label="Previous service">
-                  <svg aria-hidden="true"><use href="#i-left"/></svg>
-                </button>
-                <div class="dots" id="dots"></div>
-                <button class="arrow" id="nextSlide" type="button" aria-label="Next service">
-                  <svg aria-hidden="true"><use href="#i-right"/></svg>
-                </button>
-              </div>
             </div>
 
-            <div class="hero-cta">
-              <a class="btn btn-red btn-lg" href="services.html">Explore Our Services</a>
-            </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         EXPLORE OUR SERVICES: right under the video
+         ========================================================== -->
+    <section class="explore" aria-label="Explore our services">
+      <div class="wrap">
+        <a class="btn btn-red btn-lg" href="services.html">Explore Our Services</a>
       </div>
     </section>
 
@@ -635,7 +563,7 @@
     const CONFIG = {
       whatsappNumber: "2348111689782",
       whatsappDisplay: "+234 811 168 9782",
-      email: "admin@reborntechglobal.org",
+      email: "support@reborntechglobal.com",
       videoUrl: "https://res.cloudinary.com/zznslxmz/video/upload/q_auto,so_0,eo_10/v1791965550/Business_Professionals_and_Corporate_Stock_Video_Footage_by_FILMPAC_1_b1jhjq.mp4",
       videoPoster: "https://res.cloudinary.com/zznslxmz/video/upload/q_auto,so_0/v1791965550/Business_Professionals_and_Corporate_Stock_Video_Footage_by_FILMPAC_1_b1jhjq.jpg",
       socials: {
@@ -741,77 +669,6 @@
         $$("[data-work-link]").forEach(function (li) { li.hidden = false; });
       }
 
-      /* ---------- Light, Dark and Auto ----------
-         Auto is the default. It copies the phone's own setting and changes
-         the moment the phone changes. Light and Dark are fixed choices. */
-      const MODE_KEY = "rtg-mode";
-      const themeBtn = $("#themeToggle");
-      const themePopup = $("#themePopup");
-      const themeColor = $('meta[name="theme-color"]');
-      const phoneLight = window.matchMedia("(prefers-color-scheme: light)");
-      let mode = "auto";
-
-      try {
-        const saved = localStorage.getItem(MODE_KEY);
-        if (saved === "light" || saved === "dark") mode = saved;
-      } catch (err) {}
-
-      function currentTheme() {
-        if (mode === "auto") return phoneLight.matches ? "light" : "dark";
-        return mode;
-      }
-      function applyTheme() {
-        const theme = currentTheme();
-        document.documentElement.setAttribute("data-theme", theme);
-        if (themeColor) themeColor.setAttribute("content", theme === "light" ? "#f4f4f1" : "#0b0b0d");
-        $$(".theme-option", themePopup).forEach(function (option) {
-          option.setAttribute("aria-pressed", String(option.dataset.mode === mode));
-        });
-      }
-      function setMode(next) {
-        mode = next;
-        try {
-          if (next === "auto") localStorage.removeItem(MODE_KEY);
-          else localStorage.setItem(MODE_KEY, next);
-        } catch (err) {}
-        applyTheme();
-      }
-      function closeThemeMenu() {
-        themePopup.hidden = true;
-        themeBtn.setAttribute("aria-expanded", "false");
-      }
-
-      themeBtn.addEventListener("click", function () {
-        const opening = themePopup.hidden;
-        themePopup.hidden = !opening;
-        themeBtn.setAttribute("aria-expanded", String(opening));
-        if (opening) setMenu(false);
-      });
-      themePopup.addEventListener("click", function (e) {
-        const option = e.target.closest(".theme-option");
-        if (!option) return;
-        setMode(option.dataset.mode);
-        closeThemeMenu();
-        themeBtn.focus();
-      });
-      document.addEventListener("click", function (e) {
-        if (!themePopup.hidden && !e.target.closest(".theme-menu")) closeThemeMenu();
-      });
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && !themePopup.hidden) {
-          closeThemeMenu();
-          themeBtn.focus();
-        }
-      });
-
-      // In Auto, follow the phone right away. Some phones do not announce the change
-      // while the screen is off, so also check again when the visitor comes back.
-      phoneLight.addEventListener("change", function () { if (mode === "auto") applyTheme(); });
-      document.addEventListener("visibilitychange", function () { if (mode === "auto") applyTheme(); });
-      window.addEventListener("focus", function () { if (mode === "auto") applyTheme(); });
-      window.addEventListener("pageshow", function () { if (mode === "auto") applyTheme(); });
-      applyTheme();
-
       /* ---------- Phone menu ---------- */
       const navToggle = $("#navToggle");
       const siteNav = $("#siteNav");
@@ -822,7 +679,6 @@
       }
       navToggle.addEventListener("click", function () {
         setMenu(!siteNav.classList.contains("is-open"));
-        closeThemeMenu();
       });
       siteNav.addEventListener("click", function (e) {
         if (e.target.closest("a")) setMenu(false);
@@ -867,28 +723,17 @@
       }
       startVideo();
 
-      /* ---------- Service slider ---------- */
+      /* ---------- Service slider ----------
+         The services change by themselves, inside the video. There are no buttons.
+         Hovering or touching pauses it, and a swipe moves to the next or last service. */
       const slider = $("#slider");
-      const slideBox = $("#slides");
       const slides = $$(".slide", slider);
-      const dotsBox = $("#dots");
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
       const SLIDE_MS = 5000;
       let current = 0;
       let timer = null;
       let hovering = false;
       let touching = false;
-      let focusing = false;
-
-      const dots = slides.map(function (slide, i) {
-        const dot = document.createElement("button");
-        dot.type = "button";
-        dot.className = "dot";
-        dot.setAttribute("aria-label", "Show service " + (i + 1) + ": " + $("h2", slide).textContent);
-        dot.addEventListener("click", function () { go(i, true); });
-        dotsBox.appendChild(dot);
-        return dot;
-      });
 
       function show(i) {
         current = (i + slides.length) % slides.length;
@@ -896,33 +741,21 @@
           const on = n === current;
           slide.classList.toggle("is-active", on);
           slide.setAttribute("aria-hidden", on ? "false" : "true");
-          dots[n].setAttribute("aria-current", on ? "true" : "false");
         });
       }
-      function go(i, byUser) {
-        show(i);
-        // Screen readers announce slide changes only after the person uses the controls
-        if (byUser) slideBox.setAttribute("aria-live", "polite");
-        restart();
-      }
-      function paused() { return hovering || touching || focusing; }
-      function stop() { clearInterval(timer); timer = null; }
       function restart() {
-        stop();
+        clearInterval(timer);
+        timer = null;
         if (reduceMotion.matches) return; // No automatic sliding for reduced motion
-        timer = setInterval(function () { if (!paused()) show(current + 1); }, SLIDE_MS);
+        timer = setInterval(function () {
+          if (!hovering && !touching) show(current + 1);
+        }, SLIDE_MS);
       }
+      function go(i) { show(i); restart(); }
 
-      $("#prevSlide").addEventListener("click", function () { go(current - 1, true); });
-      $("#nextSlide").addEventListener("click", function () { go(current + 1, true); });
-
-      // Pause on hover (mouse only), touch and keyboard focus
+      // Pause while a mouse is over it or a finger is on it
       slider.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") hovering = true; });
       slider.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") hovering = false; });
-      slider.addEventListener("focusin", function () { focusing = true; });
-      slider.addEventListener("focusout", function () { focusing = false; });
-
-      // Touch: pause while the finger is down, and allow a swipe left or right
       let startX = 0;
       slider.addEventListener("touchstart", function (e) {
         touching = true;
@@ -931,15 +764,9 @@
       slider.addEventListener("touchend", function (e) {
         touching = false;
         const dx = e.changedTouches[0].clientX - startX;
-        if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1), true); else restart();
+        if (Math.abs(dx) > 50) go(current + (dx < 0 ? 1 : -1)); else restart();
       }, { passive: true });
       slider.addEventListener("touchcancel", function () { touching = false; }, { passive: true });
-
-      // Keyboard: left and right arrow keys
-      slider.addEventListener("keydown", function (e) {
-        if (e.key === "ArrowLeft") { go(current - 1, true); }
-        if (e.key === "ArrowRight") { go(current + 1, true); }
-      });
       reduceMotion.addEventListener("change", restart);
 
       show(0);
